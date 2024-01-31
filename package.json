@@ -1,5 +1,6 @@
 {
-  "name": "melange-opam-template",
+  "name": "melange-react-select-country",
+  "homepage": "https://alessioprestileo.github.io/melange-react-select-country",
   "scripts": {
     "preinstall-opam": "opam update",
     "install-opam": "opam install -y . --deps-only --with-test",

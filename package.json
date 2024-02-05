@@ -37,7 +37,8 @@
   },
   "dependencies": {
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",

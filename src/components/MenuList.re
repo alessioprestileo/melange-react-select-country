@@ -64,7 +64,7 @@ module MenuList = {
     let divRef = React.useRef(Js.Nullable.null);
     let (scrollValue, setScrollValue) = React.useState(() => 0);
     let scrollStep = 400;
-    React.useEffect1(
+    React.useEffect2(
       () => {
         let handleWheel = (e: Webapi.Dom.WheelEvent.t) => {
           let deltaY = int_of_float(Webapi.Dom.WheelEvent.deltaY(e));
@@ -89,7 +89,7 @@ module MenuList = {
         | None => None
         };
       },
-      [|divRef|],
+      (divRef, childrenLength),
     );
 
     React.useEffect1(
@@ -125,10 +125,6 @@ module MenuList = {
         ~scrollStep,
         ~scrollValue,
       );
-
-    Js.log2("focusedIndex = ", focusedIndex);
-    Js.log2("childrenElements = ", childrenElements);
-    Js.log2("slicedChildren = ", slicedChildren);
 
     <Spread props=allPropsToSpread>
       <div ref={ReactDOM.Ref.domRef(divRef)} style=defaultStyle>

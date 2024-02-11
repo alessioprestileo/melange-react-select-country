@@ -1,22 +1,22 @@
 module Types = {
-  type extraFieldsJsCompatible = {activeUsers: Js.Nullable.t(int)};
+  type customFieldsJsCompatible = {activeUsers: Js.Nullable.t(int)};
   type countryJsCompatible = {
     label: string,
     value: string,
-    extraFields: extraFieldsJsCompatible,
+    customFields: customFieldsJsCompatible,
   };
-  type extraFields = {activeUsers: option(int)};
+  type customFields = {activeUsers: option(int)};
   type country = {
     label: string,
     value: string,
-    extraFields,
+    customFields,
   };
   let countryToCountryJs = (c: country): countryJsCompatible => {
     {
       label: c.label,
       value: c.value,
-      extraFields: {
-        activeUsers: Js.Nullable.fromOption(c.extraFields.activeUsers),
+      customFields: {
+        activeUsers: Js.Nullable.fromOption(c.customFields.activeUsers),
       },
     };
   };
@@ -24,8 +24,8 @@ module Types = {
     {
       label: c.label,
       value: c.value,
-      extraFields: {
-        activeUsers: Js.Nullable.toOption(c.extraFields.activeUsers),
+      customFields: {
+        activeUsers: Js.Nullable.toOption(c.customFields.activeUsers),
       },
     };
   };

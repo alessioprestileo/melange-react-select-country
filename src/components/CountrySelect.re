@@ -28,7 +28,7 @@ module Utils: Utils = {
     {
       label,
       value,
-      extraFields: {
+      customFields: {
         activeUsers: activeUsers,
       },
     };
@@ -48,7 +48,7 @@ module Utils: Utils = {
            )
     );
   let sortCountries = (a: Types.country, b: Types.country) => {
-    switch (a.extraFields.activeUsers, b.extraFields.activeUsers) {
+    switch (a.customFields.activeUsers, b.customFields.activeUsers) {
     | (Some(_), None) => (-1)
     | (None, Some(_)) => 1
     | (Some(activeUsersA), Some(activeUsersB)) =>

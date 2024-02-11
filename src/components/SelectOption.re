@@ -2,9 +2,11 @@ open Flag;
 open ReactSelect;
 open SharedStyles;
 open Spread;
+open Types;
 
 module type SelectOption = {
-  let render: ReactSelect.optionProps => React.element;
+  let render:
+    ReactSelect.optionProps(Types.customFieldsJsCompatible) => React.element;
 };
 module SelectOption = {
   module Styles = {
@@ -48,14 +50,15 @@ module SelectOption = {
         ? string_of_int(value)
         : (float_of_int(value) /. 1000.0 |> Printf.sprintf("%.1f")) ++ "K";
   };
-  let render = (props: ReactSelect.optionProps) => {
+  let render =
+      (props: ReactSelect.optionProps(Types.customFieldsJsCompatible)) => {
     let innerRef = props.innerRef;
     let rawChildren = props.children;
     let getStyles = props.getStyles;
     let innerProps = props.innerProps;
     let defaultStyle = getStyles("option", props);
     let maxWidthLabel =
-      props.data.extraFields.activeUsers
+      props.data.customFields.activeUsers
       |> Js.Nullable.toOption
       |> (
         fun
@@ -74,7 +77,7 @@ module SelectOption = {
           <div title={props.data.label} style=optionLabelStyle>
             rawChildren->Obj.magic
           </div>
-          {switch (Js.Nullable.toOption(props.data.extraFields.activeUsers)) {
+          {switch (Js.Nullable.toOption(props.data.customFields.activeUsers)) {
            | None => React.null
            | Some(activeUsers) =>
              <div style=Styles.optionActiveUsers>

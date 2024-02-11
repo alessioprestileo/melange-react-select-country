@@ -19,31 +19,38 @@ module ReactSelect = {
     customStylesMap(
       (ReactDOM.Style.t, selectOptionState) => ReactDOM.Style.t,
     );
-  type menuListProps = {
-    children: Js.Json.t,
-    getStyles: (string, menuListProps) => ReactDOM.style,
-    innerProps: Js.t({.}),
-    focusedOption: Js.Nullable.t(Types.countryJsCompatible),
+  type selectOption('a) = {
+    label: string,
+    value: string,
+    customFields: 'a,
   };
-  type optionProps = {
+  type menuListProps('a) = {
     children: Js.Json.t,
-    getStyles: (string, optionProps) => ReactDOM.style,
+    getStyles: (string, menuListProps('a)) => ReactDOM.style,
+    innerProps: Js.t({.}),
+    focusedOption: Js.Nullable.t(selectOption('a)),
+  };
+  type menuListChildRecordData('a) = {data: selectOption('a)};
+  type menuListChildRecord('a) = {props: menuListChildRecordData('a)};
+  type optionProps('a) = {
+    children: Js.Json.t,
+    getStyles: (string, optionProps('a)) => ReactDOM.style,
     innerProps: Js.t({.}),
     innerRef: ReactDOM.domRef,
-    data: Types.countryJsCompatible,
+    data: selectOption('a),
   };
-  type componentsType = {
+  type componentsType('a) = {
     .
     "DropdownIndicator": Js.Nullable.t(unit => React.element),
     "IndicatorSeparator": Js.Nullable.t(unit => React.element),
-    "MenuList": Js.Nullable.t(menuListProps => React.element),
-    "Option": Js.Nullable.t(optionProps => React.element),
+    "MenuList": Js.Nullable.t(menuListProps('a) => React.element),
+    "Option": Js.Nullable.t(optionProps('a) => React.element),
   };
   [@mel.module "react-select"] [@react.component]
   external make:
     (
       ~autoFocus: bool,
-      ~components: componentsType,
+      ~components: componentsType('a),
       ~controlShouldRenderValue: bool,
       ~hideSelectedOptions: bool,
       ~isClearable: bool,

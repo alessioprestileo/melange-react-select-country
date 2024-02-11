@@ -3,7 +3,8 @@ open Spread;
 open Types;
 
 module type MenuList = {
-  let render: ReactSelect.menuListProps => React.element;
+  let render:
+    ReactSelect.menuListProps(Types.customFieldsJsCompatible) => React.element;
 };
 module MenuList = {
   module Utils = {
@@ -45,10 +46,11 @@ module MenuList = {
     };
   };
 
-  type childRecordData = {data: Types.countryJsCompatible};
-  type childRecord = {props: childRecordData};
+  type childRecord =
+    ReactSelect.menuListChildRecord(Types.customFieldsJsCompatible);
 
-  let render = (props: ReactSelect.menuListProps) => {
+  let render =
+      (props: ReactSelect.menuListProps(Types.customFieldsJsCompatible)) => {
     let rawChildren = props.children;
     let getStyles = props.getStyles;
     let innerProps = props.innerProps;
@@ -102,7 +104,7 @@ module MenuList = {
 
     let focusedIndex =
       Array.find_index(
-        item =>
+        (item: childRecord) =>
           switch (Js.Nullable.toOption(props.focusedOption)) {
           | None => false
           | Some(focusedOption) =>

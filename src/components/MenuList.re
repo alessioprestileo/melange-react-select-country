@@ -18,7 +18,8 @@ module MenuList = {
         childrenLength > maxRenderedItems
           ? childrenLength - maxRenderedItems : 0;
       let sliceStart =
-        scrollIndex < maxSliceStart ? scrollIndex : maxSliceStart;
+        focusedIndex === 0
+          ? 0 : scrollIndex < maxSliceStart ? scrollIndex : maxSliceStart;
       let maxSliceEnd = childrenLength;
       let sliceEnd =
         sliceStart + maxRenderedItems < maxSliceEnd

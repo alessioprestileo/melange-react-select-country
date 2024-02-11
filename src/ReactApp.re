@@ -1,4 +1,4 @@
-open CountrySelect;
+open Components;
 
 module App = {
   let style =

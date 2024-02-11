@@ -28,7 +28,7 @@ function createDeployableArtifact() {
 
   try {
     if (fs.existsSync(deployDir)) {
-      fs.rmdirSync(deployDir, { recursive: true });
+      fs.rmSync(deployDir, { recursive: true });
     }
 
     fs.mkdirSync(deployDir);

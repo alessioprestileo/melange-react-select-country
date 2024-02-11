@@ -68,6 +68,7 @@ module MenuList = {
     let scrollStep = 400;
     React.useEffect2(
       () => {
+        setScrollValue(_ => 0);
         let handleWheel = (e: Webapi.Dom.WheelEvent.t) => {
           let deltaY = int_of_float(Webapi.Dom.WheelEvent.deltaY(e));
           setScrollValue(prevScrollValue =>
@@ -86,20 +87,12 @@ module MenuList = {
           elem |> Webapi.Dom.Element.addWheelEventListener(handleWheel);
           Some(
             () =>
-              elem |> Webapi.Dom.Element.addWheelEventListener(handleWheel),
+              elem |> Webapi.Dom.Element.removeWheelEventListener(handleWheel),
           );
         | None => None
         };
       },
-      (divRef, childrenLength),
-    );
-
-    React.useEffect1(
-      () => {
-        setScrollValue(_ => 0);
-        None;
-      },
-      [|childrenLength|],
+      (divRef.current, childrenLength),
     );
 
     let focusedIndex =

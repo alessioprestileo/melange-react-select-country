@@ -64,37 +64,28 @@ module MenuList = {
       rawChildren->Js.Json.decodeArray->Belt.Option.getWithDefault([||])
       |> Obj.magic;
 
-    let divRef = React.useRef(Js.Nullable.null);
     let (scrollValue, setScrollValue) = React.useState(() => 0);
-    let scrollStep = 400;
-    React.useEffect2(
+    React.useEffect1(
       () => {
         setScrollValue(_ => 0);
-        let handleWheel = (e: Webapi.Dom.WheelEvent.t) => {
-          let deltaY = int_of_float(Webapi.Dom.WheelEvent.deltaY(e));
-          setScrollValue(prevScrollValue =>
-            if (prevScrollValue + deltaY < 0) {
-              0;
-            } else if (prevScrollValue + deltaY > scrollStep * childrenLength) {
-              scrollStep * childrenLength;
-            } else {
-              prevScrollValue + deltaY;
-            }
-          );
-        };
-
-        switch (Js.Nullable.toOption(divRef.current)) {
-        | Some(elem) =>
-          elem |> Webapi.Dom.Element.addWheelEventListener(handleWheel);
-          Some(
-            () =>
-              elem |> Webapi.Dom.Element.removeWheelEventListener(handleWheel),
-          );
-        | None => None
-        };
+        None;
       },
-      (divRef.current, childrenLength),
+      [|childrenLength|],
     );
+
+    let scrollStep = 400;
+    let handleWheel = e => {
+      let deltaY = int_of_float(ReactEvent.Wheel.deltaY(e));
+      setScrollValue(prevScrollValue =>
+        if (prevScrollValue + deltaY < 0) {
+          0;
+        } else if (prevScrollValue + deltaY > scrollStep * childrenLength) {
+          scrollStep * childrenLength;
+        } else {
+          prevScrollValue + deltaY;
+        }
+      );
+    };
 
     let focusedIndex =
       Array.find_index(
@@ -123,7 +114,7 @@ module MenuList = {
       );
 
     <Spread props=allPropsToSpread>
-      <div ref={ReactDOM.Ref.domRef(divRef)} style=defaultStyle>
+      <div onWheel=handleWheel style=defaultStyle>
         {React.array(slicedChildren)}
       </div>
     </Spread>;
